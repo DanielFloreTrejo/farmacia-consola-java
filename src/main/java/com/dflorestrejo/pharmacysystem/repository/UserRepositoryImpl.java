@@ -90,6 +90,7 @@ public class UserRepositoryImpl implements UserRepository {
         user.setEmployeeRole(EmployeeRole.valueOf(rs.getString("employee_role")));
         user.setActive(rs.getBoolean("active"));
         user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+
         return  user;
     }
 }

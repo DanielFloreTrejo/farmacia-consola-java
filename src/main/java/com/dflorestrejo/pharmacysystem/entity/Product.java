@@ -18,13 +18,14 @@ public class Product {
     private LocalDate expirationDate;
     private String barCode;
     private boolean requiresPrescription;
+    private boolean active;
 
     public Product() {
     }
 
     public Product(String name, String description, Category category, String laboratory, String presentation,
                    int currentStock, int minimumStock, BigDecimal purchasePrice, BigDecimal salePrice,
-                   LocalDate expirationDate, String barCode, boolean requiresPrescription) {
+                   LocalDate expirationDate, String barCode, boolean requiresPrescription, boolean active) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -37,6 +38,7 @@ public class Product {
         this.expirationDate = expirationDate;
         this.barCode = barCode;
         this.requiresPrescription = requiresPrescription;
+        this.active = active;
     }
 
     public int getId() {
@@ -141,5 +143,13 @@ public class Product {
 
     public void setRequiresPrescription(boolean requiresPrescription) {
         this.requiresPrescription = requiresPrescription;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

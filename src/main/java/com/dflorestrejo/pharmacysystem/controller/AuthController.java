@@ -4,7 +4,6 @@ import com.dflorestrejo.pharmacysystem.entity.User;
 import com.dflorestrejo.pharmacysystem.enums.EmployeeRole;
 import com.dflorestrejo.pharmacysystem.service.UserService;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class AuthController {
@@ -26,8 +25,8 @@ public class AuthController {
         System.out.print("Usuario: ");
         String username = scanner.nextLine().trim();
 
-       System.out.print("Contraseña: ");
-       String password = scanner.nextLine().trim();
+        System.out.print("Contraseña: ");
+        String password = scanner.nextLine().trim();
 
 
         try {

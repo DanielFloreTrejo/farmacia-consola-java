@@ -30,8 +30,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username).orElseThrow(() ->
                 new RuntimeException("El nombre de usuario o contraseña no son correctas"));
 
-        if (!passwordEncoder.matches(rawPassword,user.getPasswordHash())) {
-          throw new RuntimeException("El nombre de usuario o contraseña no son correctas");
+        if (!passwordEncoder.matches(rawPassword, user.getPasswordHash())) {
+            throw new RuntimeException("El nombre de usuario o contraseña no son correctas");
         }
 
         return user;
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         }
 
         String passwordHash = passwordEncoder.encode(rawPassword);
-        User user = new User(username,passwordHash,role,true);
+        User user = new User(username, passwordHash, role, true);
 
         return userRepository.save(user);
     }

@@ -27,7 +27,6 @@ public class DatabaseConnection {
         config.setPoolName("FarmaciaPool");
 
         this.dataSource = new HikariDataSource(config);
-        System.out.println("Pool de conexiones iniciado");
     }
 
     public static DatabaseConnection getInstance() {

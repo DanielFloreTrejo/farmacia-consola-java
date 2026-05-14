@@ -17,6 +17,7 @@
     <dependencies>
 
         <!-- Conexión a MySQL -->
+        <!-- Vulnerability found in dependency: -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
@@ -39,5 +40,18 @@
             <version>0.4</version>
         </dependency>
 
+        <!-- API de SLF4J — debe ser la misma versión que slf4j-simple -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+
+        <!-- Implementación de logs para SLF4J — elimina el warning de HikariCP -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.9</version>
+        </dependency>
     </dependencies>
 </project>
