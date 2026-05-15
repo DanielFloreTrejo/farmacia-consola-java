@@ -16,26 +16,48 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product add(Product product) {
-        return null;
+
+        if (product.getName().isBlank()) {
+            throw new IllegalArgumentException("El nombre del producto no puede estar vacío");
+        }
+
+        if (product.getMinimumStock() <= 0 ) {
+            throw new IllegalArgumentException("El stock mínimo no puede ser negativo");
+        }
+
+        if (product.getSalePrice().compareTo(product.getPurchasePrice()) < 0) {
+            throw new IllegalArgumentException("El precio de venta no puede ser menor al de compra");
+        }
+
+        if (product.getDescription().isBlank()) {
+            throw new IllegalArgumentException("La descripción del producto no puede estar vació");
+        }
+        return productRepository.save(product);
     }
 
     @Override
     public List<Product> findAll() {
-        return List.of();
+        return productRepository.findAll();
     }
 
     @Override
     public Optional<Product> findById(int id) {
-        return Optional.empty();
+        return productRepository.findById(id);
     }
 
     @Override
     public void update(Product product) {
-
+        if (product == null) {
+            throw new RuntimeException("Error no tiene datos");
+        }
+        productRepository.update(product);
     }
 
     @Override
     public void delete(int id) {
-
+        if (productRepository.findById(id).isEmpty()) {
+            throw new IllegalArgumentException("Producto no encontrado con id: " + id);
+        }
+        productRepository.delete(id);
     }
 }
