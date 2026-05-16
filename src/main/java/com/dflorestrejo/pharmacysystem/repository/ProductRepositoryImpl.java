@@ -14,8 +14,8 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Product save(Product product) {
 
-        String sql = "INSERT INTO productos(name, description, category_id, laboratory, presentation, current_stock, " +
-                "minimum_stock, purchase_price, sale_price , expiration_date, bar_code, requires_prescription, active) " +
+        String sql = "INSERT INTO productos(name, description, category_id, laboratory, presentation, " +
+                "purchase_price, sale_price , expiration_date, bar_code, requires_prescription, active) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
@@ -26,14 +26,12 @@ public class ProductRepositoryImpl implements ProductRepository {
             pstmt.setInt(3, product.getCategory().getId());
             pstmt.setString(4, product.getLaboratory());
             pstmt.setString(5, product.getPresentation());
-            pstmt.setInt(6, product.getCurrentStock());
-            pstmt.setInt(7, product.getMinimumStock());
-            pstmt.setBigDecimal(8, product.getPurchasePrice());
-            pstmt.setBigDecimal(9, product.getSalePrice());
-            pstmt.setTimestamp(10, Timestamp.valueOf(product.getExpirationDate().atStartOfDay()));
-            pstmt.setString(11, product.getBarCode());
-            pstmt.setBoolean(12, product.isRequiresPrescription());
-            pstmt.setBoolean(13, product.isActive());
+            pstmt.setBigDecimal(6, product.getPurchasePrice());
+            pstmt.setBigDecimal(7, product.getSalePrice());
+            pstmt.setTimestamp(8, Timestamp.valueOf(product.getExpirationDate().atStartOfDay()));
+            pstmt.setString(9, product.getBarCode());
+            pstmt.setBoolean(10, product.isRequiresPrescription());
+            pstmt.setBoolean(11, product.isActive());
 
             pstmt.executeUpdate();
             ResultSet key = pstmt.getGeneratedKeys();
@@ -54,7 +52,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement("SELECT p.id, p.name, p.description, c.id AS category_id," +
-                     " c.name AS category_name, p.laboratory, p.presentation, p.current_stock, p.minimum_stock, " +
+                     " c.name AS category_name, p.laboratory, p.presentation, " +
                      "p.purchase_price, p.sale_price , p.expiration_date, p.bar_code, p.requires_prescription, p.active " +
                      "FROM products p INNER JOIN categories c on p.category_id = c.id WHERE id = ?")) {
 
@@ -75,7 +73,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public List<Product> findAll() {
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement("SELECT p.id, p.name, p.description, c.id AS category_id, " +
-                     "c.name AS category_name, p.laboratory, p.presentation, p.current_stock, p.minimum_stock, " +
+                     "c.name AS category_name, p.laboratory, p.presentation, " +
                      "p.purchase_price, p.sale_price , p.expiration_date, p.bar_code, p.requires_prescription, p.active FROM products p" +
                      " INNER JOIN categories c on p.category_id = c.id")) {
 
@@ -98,7 +96,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement("SELECT p.id, p.name, p.description, c.id AS category_id," +
-                     " c.name AS category_name, p.laboratory, p.presentation, p.current_stock, p.minimum_stock, " +
+                     " c.name AS category_name, p.laboratory, p.presentation, " +
                      "p.purchase_price, p.sale_price , p.expiration_date, p.bar_code, p.requires_prescription, p.active" +
                      " FROM products p INNER JOIN categories c on p.category_id = c.id WHERE name = ?")) {
 
@@ -119,7 +117,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void update(Product product) {
 
         String sql = "UPDATE products SET name=?, description=?, category_id=?, laboratory=?, presentation=?, " +
-                "current_stock=?, minimum_stock=?, purchase_price=?, sale_price=?, expiration_date=?, bar_code=?," +
+                "purchase_price=?, sale_price=?, expiration_date=?, bar_code=?," +
                 " requires_prescription=?, active=? WHERE id=?";
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
@@ -130,15 +128,13 @@ public class ProductRepositoryImpl implements ProductRepository {
             pstmt.setInt(3, product.getCategory().getId());
             pstmt.setString(4, product.getLaboratory());
             pstmt.setString(5, product.getPresentation());
-            pstmt.setInt(6, product.getCurrentStock());
-            pstmt.setInt(7, product.getMinimumStock());
-            pstmt.setBigDecimal(8, product.getPurchasePrice());
-            pstmt.setBigDecimal(9, product.getSalePrice());
-            pstmt.setTimestamp(10, Timestamp.valueOf(product.getExpirationDate().atStartOfDay()));
-            pstmt.setString(11, product.getBarCode());
-            pstmt.setBoolean(12, product.isRequiresPrescription());
-            pstmt.setBoolean(13, product.isActive());
-            pstmt.setInt(14,product.getId());
+            pstmt.setBigDecimal(6, product.getPurchasePrice());
+            pstmt.setBigDecimal(7, product.getSalePrice());
+            pstmt.setTimestamp(8, Timestamp.valueOf(product.getExpirationDate().atStartOfDay()));
+            pstmt.setString(9, product.getBarCode());
+            pstmt.setBoolean(10, product.isRequiresPrescription());
+            pstmt.setBoolean(11, product.isActive());
+            pstmt.setInt(12,product.getId());
 
             pstmt.executeUpdate();
 
@@ -168,8 +164,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         product.setDescription(rs.getString("description"));
         product.setLaboratory(rs.getString("laboratory"));
         product.setPresentation(rs.getString("presentation"));
-        product.setCurrentStock(rs.getInt("current_stock"));
-        product.setMinimumStock(rs.getInt("minimum_stock"));
         product.setPurchasePrice(rs.getBigDecimal("purchase_price"));
         product.setSalePrice(rs.getBigDecimal("sale_price"));
         product.setExpirationDate(rs.getTimestamp("expiration_date").toLocalDateTime().toLocalDate());
