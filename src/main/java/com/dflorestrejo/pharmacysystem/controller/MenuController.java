@@ -65,24 +65,22 @@ public class MenuController {
         String input = scanner.nextLine().trim();
 
         switch (input) {
-            case "1":
+            case "1" -> productController.menu();
+            case "2" -> {
+                // todo sin implementar}
+            }
+            case "3" -> {
                 // todo sin implementar
-                break;
-            case "2":
+            }
+            case "4" -> {
                 // todo sin implementar
-                break;
-            case "3":
+            }
+            case "5" -> {
                 // todo sin implementar
-                break;
-            case "4":
+            }
+            case "6" ->{
                 // todo sin implementar
-                break;
-            case "5":
-                // todo sin implementar
-                break;
-            case "6":
-                // todo sin implementar
-                break;
+            }
         }
     }
 

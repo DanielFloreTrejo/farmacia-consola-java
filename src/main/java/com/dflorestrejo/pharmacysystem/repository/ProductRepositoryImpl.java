@@ -6,7 +6,6 @@ import com.dflorestrejo.pharmacysystem.entity.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,8 +55,8 @@ public class ProductRepositoryImpl implements ProductRepository {
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
              PreparedStatement pstmt = conn.prepareStatement("SELECT p.id, p.name, p.description, c.id AS category_id," +
                      " c.name AS category_name, p.laboratory, p.presentation, p.current_stock, p.minimum_stock, " +
-                     "p.purchase_price, p.sale_price , p.expiration_date, p.bar_code, p.requires_prescription, p.active FROM products p" +
-                     "INNER JOIN categories c on p.category_id = c.id WHERE id = ?")) {
+                     "p.purchase_price, p.sale_price , p.expiration_date, p.bar_code, p.requires_prescription, p.active " +
+                     "FROM products p INNER JOIN categories c on p.category_id = c.id WHERE id = ?")) {
 
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -139,6 +138,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             pstmt.setString(11, product.getBarCode());
             pstmt.setBoolean(12, product.isRequiresPrescription());
             pstmt.setBoolean(13, product.isActive());
+            pstmt.setInt(14,product.getId());
 
             pstmt.executeUpdate();
 
