@@ -4,17 +4,19 @@ package com.dflorestrejo.pharmacysystem.entity;
 public class ProductStock {
 
     private int id;
-    private Product productId;
-    private Branch branchId;
+    private Product product;
+    private Branch branch;
     private int quantity;
+    private int minimumStock;
 
     public ProductStock() {
     }
 
-    public ProductStock(Product productId, Branch branchId, int quantity) {
-        this.productId = productId;
-        this.branchId = branchId;
+    public ProductStock(Product product, Branch branch, int quantity, int minimumStock) {
+        this.product = product;
+        this.branch = branch;
         this.quantity = quantity;
+        this.minimumStock = minimumStock;
     }
 
     public int getId() {
@@ -25,12 +27,12 @@ public class ProductStock {
         this.id = id;
     }
 
-    public Product getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public Branch getBranchId() {
-        return branchId;
+    public Branch getBranch() {
+        return branch;
     }
 
     public int getQuantity() {
@@ -39,5 +41,13 @@ public class ProductStock {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getMinimumStock() {
+        return minimumStock;
+    }
+
+    public void setMinimumStock(int minimumStock) {
+        this.minimumStock = minimumStock;
     }
 }

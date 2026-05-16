@@ -11,8 +11,6 @@ public class Product {
     private Category category;
     private String laboratory;
     private String presentation;
-    private int currentStock;
-    private int minimumStock;
     private BigDecimal purchasePrice;
     private BigDecimal salePrice;
     private LocalDate expirationDate;
@@ -24,15 +22,13 @@ public class Product {
     }
 
     public Product(String name, String description, Category category, String laboratory, String presentation,
-                   int currentStock, int minimumStock, BigDecimal purchasePrice, BigDecimal salePrice,
+                    BigDecimal purchasePrice, BigDecimal salePrice,
                    LocalDate expirationDate, String barCode, boolean requiresPrescription, boolean active) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.laboratory = laboratory;
         this.presentation = presentation;
-        this.currentStock = currentStock;
-        this.minimumStock = minimumStock;
         this.purchasePrice = purchasePrice;
         this.salePrice = salePrice;
         this.expirationDate = expirationDate;
@@ -87,22 +83,6 @@ public class Product {
 
     public void setPresentation(String presentation) {
         this.presentation = presentation;
-    }
-
-    public int getCurrentStock() {
-        return currentStock;
-    }
-
-    public void setCurrentStock(int currentStock) {
-        this.currentStock = currentStock;
-    }
-
-    public int getMinimumStock() {
-        return minimumStock;
-    }
-
-    public void setMinimumStock(int minimumStock) {
-        this.minimumStock = minimumStock;
     }
 
     public BigDecimal getPurchasePrice() {
