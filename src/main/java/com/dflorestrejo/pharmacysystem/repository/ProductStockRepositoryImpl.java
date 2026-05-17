@@ -35,7 +35,7 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
             return productStock;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error no se pudo guardar el stock de producto " + e.getMessage());
+            throw new RuntimeException("Error no se pudo guardar el stock " + e.getMessage());
         }
     }
 
@@ -46,18 +46,51 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
 
     @Override
     public List<ProductStock> findByProduct(int productId) {
+        try(Connection conn = DatabaseConnection.getInstance().getConnection();
+        PreparedStatement pstmt = conn.prepareStatement("SELECT id, product_id, branch_id, quantity,minimum_stock" +
+                " FROM product_stock WHERE product_id = ?")) {
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+
+        }catch (SQLException e) {
+            throw new RuntimeException("Error al buscar datos");
+        }
         return List.of();
     }
 
     @Override
     public int totalStockProduct(int productId) {
-        String sql = "SELECT COALESCE(SUM(quantity), 0) AS TOTAL FROM WHERE";
-      
-        return 0;
+        String sql = "SELECT COALESCE(SUM(quantity), 0) AS TOTAL FROM product_stock WHERE id = ?";
+        try(Connection conn = DatabaseConnection.getInstance().getConnection();
+        PreparedStatement ptsmt = conn.prepareStatement(sql)){
+
+            ptsmt.setInt(1, productId);
+            ResultSet rs = ptsmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("TOTAL");
+            }
+
+            return 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al calcular el stock " + e.getMessage());
+        }
     }
 
     @Override
     public void updateQuantity(int productId, int branchId, int quantity) {
+        String sql = "UPDATE product_stock SET quantity = ? WHERE product_id = ? and branch_id = ?";
+        try(Connection conn = DatabaseConnection.getInstance().getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+            pstmt.setInt(1, quantity);
+            pstmt.setInt(2, productId);
+            pstmt.setInt(3, branchId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e){
+            throw new RuntimeException("Error al actualizar el stock " + e.getMessage());
+        }
     }
 }

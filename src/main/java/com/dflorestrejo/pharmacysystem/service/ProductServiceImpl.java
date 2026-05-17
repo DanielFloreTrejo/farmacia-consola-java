@@ -22,10 +22,6 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalArgumentException("El nombre del producto no puede estar vacío");
         }
 
-        if (product.getMinimumStock() <= 0 ) {
-            throw new IllegalArgumentException("El stock mínimo no puede ser negativo");
-        }
-
         if (product.getSalePrice().compareTo(product.getPurchasePrice()) < 0) {
             throw new IllegalArgumentException("El precio de venta no puede ser menor al de compra");
         }
@@ -36,10 +32,6 @@ public class ProductServiceImpl implements ProductService {
 
         if (product.getLaboratory().isBlank()) {
             throw new IllegalArgumentException("La descripción del producto no puede estar vació");
-        }
-
-        if (product.getCurrentStock() < 0) {
-            throw new IllegalArgumentException("El stock actual no puede ser negativo");
         }
 
         if (product.getPresentation().isBlank()) {
