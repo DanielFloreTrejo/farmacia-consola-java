@@ -40,50 +40,24 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
     }
 
     @Override
-    public Optional<ProductStock> findById(int id) {
-        try(Connection conn = DatabaseConnection.getInstance().getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("SELECT id, product_id, branch_id, quantity, minimum_stock " +
-                "FROM product_stock WHERE id = ?")) {
-
-            pstmt.setInt(1, id);
-
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error no se puedo encontrar el id" + e.getMessage());
-        }
+    public Optional<ProductStock> findByProductAndBranch(int productId, int branchId) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<ProductStock> findByName(String name) {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<ProductStock> findAll() {
+    public List<ProductStock> findByProduct(int productId) {
         return List.of();
     }
 
     @Override
-    public void update(ProductStock productStock) {
-
+    public int totalStockProduct(int productId) {
+        String sql = "SELECT COALESCE(SUM(quantity), 0) AS TOTAL FROM WHERE";
+      
+        return 0;
     }
 
-    private ProductStock mapRow(ResultSet rs) throws SQLException {
-        ProductStock productStock = new ProductStock();
+    @Override
+    public void updateQuantity(int productId, int branchId, int quantity) {
 
-        productStock.setId(rs.getInt("id"));
-        productStock.setQuantity(rs.getInt("quantity"));
-        productStock.setMinimumStock(rs.getInt("minimum_stock"));
-
-        Branch branch = new Branch();
-        branch.setId(rs.getInt("id"));
-        branch.setName(rs.getString("name"));
-        branch.setAddress(rs.getString("address"));
-        Product product = new Product();
-        return productStock;
     }
 }

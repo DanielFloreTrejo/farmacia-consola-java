@@ -9,11 +9,11 @@ public interface ProductStockRepository {
 
     ProductStock save (ProductStock productStock);
 
-    Optional<ProductStock> findById(int id);
+    Optional<ProductStock> findByProductAndBranch(int productId, int branchId);
 
-    Optional<ProductStock> findByName(String name);
+    List<ProductStock> findByProduct(int productId);
 
-    List<ProductStock> findAll();
+    int totalStockProduct(int productId);
 
-    void update(ProductStock productStock);
+    void updateQuantity(int productId,int branchId, int quantity);
 }
