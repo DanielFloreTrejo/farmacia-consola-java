@@ -93,11 +93,9 @@ public class ProductController {
         boolean requiresPrescription = scanner.nextLine().trim().equalsIgnoreCase("s");
 
         try {
-            Product product = new Product(name, description, category, laboratory, presentation, currentStock,
-                    minimumStock, purchasePrice, salePrice, expirationDate, barCode, requiresPrescription, true);
 
-            Product saved = productService.add(product);
-            System.out.println("Producto agregado con id: " + saved.getId());
+
+
 
         } catch (IllegalArgumentException e) {
             System.out.println("Error de validación: " + e.getMessage());
@@ -122,7 +120,7 @@ public class ProductController {
         System.out.println("-".repeat(75));
 
         System.out.printf("%-5d %-30s %-15s %-10s %-10d%n",product.getId(),product.getName(), product.getLaboratory(),
-                product.getSalePrice(), product.getCurrentStock());
+                product.getSalePrice());
 
         System.out.println("Ingrese lo que desea modificar");
         System.out.println(" 1. Nombre");
@@ -166,8 +164,7 @@ public class ProductController {
                     p.getId(),
                     p.getName(),
                     p.getLaboratory(),
-                    p.getSalePrice(),
-                    p.getCurrentStock()
+                    p.getSalePrice()
             );
         }
     }
