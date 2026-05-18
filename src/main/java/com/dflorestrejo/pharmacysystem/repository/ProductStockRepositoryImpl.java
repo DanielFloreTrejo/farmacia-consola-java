@@ -17,17 +17,17 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
         String sql = "INSERT INTO product_stock(product_id, branch_id, quantity, minimum_stock) " +
                 "VALUES(?, ?, ?, ?)";
 
-        try(Connection conn = DatabaseConnection.getInstance().getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, productStock.getProduct().getId());
             pstmt.setInt(2, productStock.getBranch().getId());
             pstmt.setInt(3, productStock.getQuantity());
             pstmt.setInt(4, productStock.getMinimumStock());
 
-           pstmt.executeUpdate();
+            pstmt.executeUpdate();
 
-           ResultSet key = pstmt.getGeneratedKeys();
+            ResultSet key = pstmt.getGeneratedKeys();
             if (key.next()) {
                 productStock.setId(key.getInt(1));
             }
@@ -46,13 +46,19 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
 
     @Override
     public List<ProductStock> findByProduct(int productId) {
-        try(Connection conn = DatabaseConnection.getInstance().getConnection();
-        PreparedStatement pstmt = conn.prepareStatement("SELECT id, product_id, branch_id, quantity,minimum_stock" +
-                " FROM product_stock WHERE product_id = ?")) {
+
+        String sql = "SELECT ps.id, ps.quantity, ps.minimun_stock, p.id, p.name, p.description, p.category_id, p.laboratory," + 
+                " p.presentation, p.purchase_price, p.sale_price, p.expiration_date, p.bar_code, p.requieres_prescription " +
+                " b.id, b.name, b.address, b.phone, b.active" +
+                " FROM product_stock ps INNER JOIN products p ON ps.product_id = p.id INNER JOIN branches b ON ps.branch_id = b.id" + 
+                "  WHERE product_id = ?";
+
+        try (Connection conn = DatabaseConnection.getInstance().getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, productId);
             ResultSet rs = pstmt.executeQuery();
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Error al buscar datos");
         }
         return List.of();
@@ -61,8 +67,8 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
     @Override
     public int totalStockProduct(int productId) {
         String sql = "SELECT COALESCE(SUM(quantity), 0) AS TOTAL FROM product_stock WHERE id = ?";
-        try(Connection conn = DatabaseConnection.getInstance().getConnection();
-        PreparedStatement ptsmt = conn.prepareStatement(sql)){
+        try (Connection conn = DatabaseConnection.getInstance().getConnection();
+                PreparedStatement ptsmt = conn.prepareStatement(sql)) {
 
             ptsmt.setInt(1, productId);
             ResultSet rs = ptsmt.executeQuery();
@@ -80,8 +86,8 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
     @Override
     public void updateQuantity(int productId, int branchId, int quantity) {
         String sql = "UPDATE product_stock SET quantity = ? WHERE product_id = ? and branch_id = ?";
-        try(Connection conn = DatabaseConnection.getInstance().getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, quantity);
             pstmt.setInt(2, productId);
@@ -89,7 +95,7 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
 
             pstmt.executeUpdate();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Error al actualizar el stock " + e.getMessage());
         }
     }
