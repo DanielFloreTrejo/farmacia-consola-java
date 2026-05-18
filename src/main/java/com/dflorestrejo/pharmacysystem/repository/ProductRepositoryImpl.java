@@ -166,7 +166,11 @@ public class ProductRepositoryImpl implements ProductRepository {
         product.setPresentation(rs.getString("presentation"));
         product.setPurchasePrice(rs.getBigDecimal("purchase_price"));
         product.setSalePrice(rs.getBigDecimal("sale_price"));
-        product.setExpirationDate(rs.getTimestamp("expiration_date").toLocalDateTime().toLocalDate());
+
+        // null-safe para fecha de vencimiento
+        Timestamp ts = rs.getTimestamp("expiration_date");
+        product.setExpirationDate(ts != null ? ts.toLocalDateTime().toLocalDate() : null);
+
         product.setBarCode(rs.getString("bar_code"));
         product.setRequiresPrescription(rs.getBoolean("requires_prescription"));
         product.setActive(rs.getBoolean("active"));
